@@ -15,7 +15,6 @@ class App {
 
     byeBye = () => {
         console.log(`Thank you for using File Manager, ${this.userName}!`);
-        process.exit(0);
     };
 
     msgCurrentDir = () => {
@@ -31,7 +30,7 @@ class App {
         }
     }
 
-    startApp() {
+    startApp() {``
         this.hi();
         console.log(this.msgCurrentDir());
         this.parserCommand();
