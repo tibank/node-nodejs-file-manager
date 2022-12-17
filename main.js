@@ -1,3 +1,7 @@
-import { App } from './src/app.js';
+import { app } from './src/app.js';
 
-App.startApp();
+app.startApp();
+
+process.on('SIGINT', () => {
+    app.byeBye();
+});
