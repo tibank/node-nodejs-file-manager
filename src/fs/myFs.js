@@ -14,6 +14,10 @@ const fileExists = async (file) => {
   }
 };
 
+async function getFileStat(file) {
+  return await stat(getFileAbsolutePath(file));
+}
+
 const up = async () => {
   app.currentDir = path.join(app.currentDir, '..');
   console.log(app.msgCurrentDir());
@@ -30,11 +34,26 @@ const cd = async (dir) => {
 };
 
 const list = async () => {
+  let files = [];
   try {
-    (await readdir(app.currentDir)).forEach((file) => console.log(file));
+    const fileNames = await readdir(app.currentDir);
+    files = await Promise.all(
+      fileNames.map(async (file) => {
+        const statFile = await getFileStat(file);
+        return statFile.isDirectory() ? { Name: file, Type: 'directory' } : { Name: file, Type: 'file' };
+      })
+    );
   } catch (err) {
-    console.log('Invalid input');
+    console.log('Operation faild\n');
   }
+  files.sort((file1, file2) => {
+    if (file1.Type > file2.Type) return 1;
+    if (file1.Type < file2.Type) return -1;
+    if (file1.Name > file2.Name) return 1;
+    if (file1.Name < file2.Name) return -1;
+    return 0;
+  });
+  console.table(files);
   console.log(app.msgCurrentDir());
 };
 
