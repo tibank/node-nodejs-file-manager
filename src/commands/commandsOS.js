@@ -1,4 +1,4 @@
-import { EOL, arch, cpus, homedir, userInfo } from 'os';
+import { EOL, arch, cpus, homedir, userInfo } from 'node:os';
 
 export const commandsOS = {
   '--EOL': () => console.log(JSON.stringify(EOL)),
